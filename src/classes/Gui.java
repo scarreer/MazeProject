@@ -16,6 +16,11 @@ import javax.swing.BoxLayout;
 import java.awt.Font;
 import javax.swing.JLabel;
 
+/**
+* Creates the initial window for the Maze.
+*
+* @author Davis Martin
+*/
 public class Gui extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -72,7 +77,9 @@ public class Gui extends JFrame {
 
 	}	
 	
-			
+	/**
+	* Marks a given cell filled or unfilled.
+	*/
 	public void clickCell(MazeCell cell) {
 		if(cell.isFilled()) {
 			cell.setFilled(false);
@@ -89,7 +96,9 @@ public class Gui extends JFrame {
 		
 	}
 
-
+	/**
+	* Creates the Play Maze button
+	*/
 	public JButton playMazeBtn() {
 		JButton playMaze = new JButton("Play Maze");
 		playMaze.setBounds(0, 178, 300, 100);
@@ -107,7 +116,10 @@ public class Gui extends JFrame {
 
 		return playMaze;
 	}
-	
+
+	/**
+	* Creates the Solve Maze button
+	*/
 	public JButton solveMazeBtn() {
 		JButton solveMaze = new JButton("Solve Maze");
 		solveMaze.setBounds(0, 314, 300, 100);
