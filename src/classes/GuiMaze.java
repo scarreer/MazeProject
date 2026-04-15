@@ -1,10 +1,18 @@
 package classes;
+/*
+ * Class to take the values from the raycasting class and render them onto
+ * the screen.
+ * 
+ * TODO: add instructions, add more detailed rendering
+ * 
+ * @Author Levi Fowler
+ */
+
 
 import java.awt.Color;
 import edu.princeton.cs.algs4.StdDraw;
 
 public class GuiMaze {
-    // 1. Set your desired resolution here
     private static int currentResolution = 640; 
     private static Raycasting engine = new Raycasting(currentResolution);
 
@@ -22,7 +30,7 @@ public class GuiMaze {
     }
 
     public static void Render() {
-        StdDraw.clear(StdDraw.BLACK);
+        StdDraw.clear(StdDraw.LIGHT_GRAY);
         float[] distances = engine.getDistances();
 
         for (int i = 0; i < currentResolution; i++) {
@@ -38,7 +46,6 @@ public class GuiMaze {
             double halfWidth = 0.5;
             double halfHeight = 400.0 / distance; 
 
-            // Draw the solid block
             StdDraw.filledRectangle(x, y, halfWidth, halfHeight);
         }
         

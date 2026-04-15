@@ -91,21 +91,26 @@ public class Gui extends JFrame {
 
 
 	public JButton playMazeBtn() {
-		JButton playMaze = new JButton("Play Maze");
-		playMaze.setBounds(0, 178, 300, 100);
-		playMaze.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//TODO
-			}
-		});
-		
-		//TODO add attributes of the button
-		playMaze.setPreferredSize(buttonSize);
-		playMaze.setMaximumSize(buttonSize);
-		playMaze.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		playMaze.setFont(new Font("Tahoma", Font.PLAIN, 21));
+	    JButton playMaze = new JButton("Play Maze");
+	    playMaze.setBounds(0, 178, 300, 100);
+	    playMaze.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            new Thread(() -> {
+	                try {
+	                    GuiMaze.main(null);
+	                } catch (Exception ex) {
+	                    ex.printStackTrace();
+	                }
+	            }).start();
+	        }
+	    });
+	    
+	    playMaze.setPreferredSize(buttonSize);
+	    playMaze.setMaximumSize(buttonSize);
+	    playMaze.setAlignmentX(Component.RIGHT_ALIGNMENT);
+	    playMaze.setFont(new Font("Tahoma", Font.PLAIN, 21));
 
-		return playMaze;
+	    return playMaze;
 	}
 	
 	public JButton solveMazeBtn() {
