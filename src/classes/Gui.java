@@ -1,10 +1,128 @@
 package classes;
 
-public class Gui {
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+
+import javax.swing.BoxLayout;
+import java.awt.Font;
+import javax.swing.JLabel;
+
+public class Gui extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private Dimension buttonSize = new Dimension(300, 100);
+
+	/**
+	 * Launch the application.
+	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Gui frame = new Gui();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
+	/**
+	 * Create the frame.
+	 */
+	public Gui() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450*2, 300*2);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JPanel btnPanel = new JPanel();
+		btnPanel.setBounds(490, 110, 300, 553);
+		contentPane.add(btnPanel);
+		btnPanel.setLayout(null);
+		
+		JButton playMaze = playMazeBtn();
+		btnPanel.add(playMaze);
+		
+		JButton solveMaze = solveMazeBtn();
+		btnPanel.add(solveMaze);
+		
+		
+		JPanel titlePanel = new JPanel();
+		titlePanel.setBounds(0, 0, 886, 72);
+		contentPane.add(titlePanel);
+		
+		JLabel lblNewLabel = new JLabel("Maze");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 50));
+		lblNewLabel.setBounds(54, 130, 48, 14);
+		titlePanel.add(lblNewLabel);
+
+	}	
+	
+			
+	public void clickCell(MazeCell cell) {
+		if(cell.isFilled()) {
+			cell.setFilled(false);
+		}else {
+			cell.setFilled(true);
+		}
+	}
+	
+	public void playMaze(){
+		
+	}
+	
+	public void solveMaze() {
+		
+	}
+
+
+	public JButton playMazeBtn() {
+		JButton playMaze = new JButton("Play Maze");
+		playMaze.setBounds(0, 178, 300, 100);
+		playMaze.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO
+			}
+		});
+		
+		//TODO add attributes of the button
+		playMaze.setPreferredSize(buttonSize);
+		playMaze.setMaximumSize(buttonSize);
+		playMaze.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		playMaze.setFont(new Font("Tahoma", Font.PLAIN, 21));
+
+		return playMaze;
+	}
+	
+	public JButton solveMazeBtn() {
+		JButton solveMaze = new JButton("Solve Maze");
+		solveMaze.setBounds(0, 314, 300, 100);
+		
+		solveMaze.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO
+			}
+		});
+		
+		//TODO add attributes of the button
+		solveMaze.setPreferredSize(buttonSize);
+		solveMaze.setMaximumSize(buttonSize);
+		solveMaze.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		solveMaze.setFont(new Font("Tahoma", Font.PLAIN, 21));
+		return solveMaze;
+	}
 }
