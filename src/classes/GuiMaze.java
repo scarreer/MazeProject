@@ -10,19 +10,23 @@ package classes;
 
 
 import java.awt.Color;
+import java.lang.reflect.Field;
+
+import javax.swing.JFrame;
+
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdRandom;
 
 public class GuiMaze {
     private static int currentResolution = 640; 
     private static Raycasting engine = new Raycasting(currentResolution);
-    private static int wallColor = StdRandom.uniformInt(1, 7);
 
     public static void main(String[] args) {
         StdDraw.setCanvasSize(1280, 720);
         StdDraw.setXscale(0, currentResolution);
         StdDraw.setYscale(0, 720);
         StdDraw.enableDoubleBuffering();
+        removeMenuBar();
         
 
 
@@ -40,51 +44,37 @@ public class GuiMaze {
         
         float[] distances = engine.getDistances();
         boolean[] wallBrightness = engine.getBrightness();
+        int[] wallColors = engine.getColorArray();
 
         for (int i = 0; i < currentResolution; i++) {
             float distance = distances[i];
             if (distance < 0.1f) distance = 0.1f;
             
-            if(wallBrightness[i]) {
-                float brightness = 1.0f - Math.min(1.0f, distance / 10.0f);                
-                int color = (int)(255 * brightness);
-                
-                switch(wallColor) {
-            		case 1: StdDraw.setPenColor(new Color(color, 0, 0));
-            	break;
-            		case 2: StdDraw.setPenColor(new Color(0, color, 0));
-            	break;
-            		case 3: StdDraw.setPenColor(new Color(0, 0, color));
-            	break;
-            		case 4: StdDraw.setPenColor(new Color(color, color, 0));
-                break;
-                	case 5: StdDraw.setPenColor(new Color(0, color, color));
-                break;
-                	case 6: StdDraw.setPenColor(new Color(color, 0, color));
-                break;
-            
-            }
-               
-            } else {
-                float brightness = 1.0f - Math.min(1.0f, distance / 10.0f); 
-                int color = (int)(230 * brightness);
-                
-                switch(wallColor) {
-                		case 1: StdDraw.setPenColor(new Color(color, 0, 0));
-                	break;
-                		case 2: StdDraw.setPenColor(new Color(0, color, 0));
-                	break;
-                		case 3: StdDraw.setPenColor(new Color(0, 0, color));
-                	break;
-                		case 4: StdDraw.setPenColor(new Color(color, color, 0));
-                    break;
-                    	case 5: StdDraw.setPenColor(new Color(0, color, color));
-                    break;
-                    	case 6: StdDraw.setPenColor(new Color(color, 0, color));
-                    break;
-                
-                }
-            }
+            if(wallColors[i] == 1) {
+	            if(wallBrightness[i]) {
+	                float brightness = 1.0f - Math.min(1.0f, distance / 10.0f);                
+	            	StdDraw.setPenColor(new Color(0, 0, (int)(255 * brightness)));
+	            } else {
+	                float brightness = 1.0f - Math.min(1.0f, distance / 10.0f); 
+	                StdDraw.setPenColor(new Color(0, 0, (int)(230 * brightness)));
+	            }
+            } else if(wallColors[i] == 2) {
+	            if(wallBrightness[i]) {
+	                float brightness = 1.0f - Math.min(1.0f, distance / 10.0f);                
+	            	StdDraw.setPenColor(new Color(0, (int)(255 * brightness), 0));
+	            } else {
+	                float brightness = 1.0f - Math.min(1.0f, distance / 10.0f); 
+	                StdDraw.setPenColor(new Color(0, (int)(230 * brightness), 0));
+	            }
+            }  else if(wallColors[i] == 3) {
+	            if(wallBrightness[i]) {
+	                float brightness = 1.0f - Math.min(1.0f, distance / 10.0f);                
+	            	StdDraw.setPenColor(new Color((int)(255 * brightness), 0, 0));
+	            } else {
+	                float brightness = 1.0f - Math.min(1.0f, distance / 10.0f); 
+	                StdDraw.setPenColor(new Color((int)(230 * brightness), 0, 0));
+	            }
+            } 
 
 
             double x = i + 0.5;
@@ -96,5 +86,20 @@ public class GuiMaze {
         }
         
         StdDraw.show();
+    }
+    
+    private static void removeMenuBar() {
+        try {
+            // Access the private 'frame' field in StdDraw
+            Field frameField = StdDraw.class.getDeclaredField("frame");
+            frameField.setAccessible(true);
+            JFrame frame = (JFrame) frameField.get(null);
+            
+            // Remove the menu bar
+            frame.setJMenuBar(null);
+            frame.revalidate();
+        } catch (Exception e) {
+            System.out.println("Could not remove menu bar: " + e.getMessage());
+        }
     }
 }

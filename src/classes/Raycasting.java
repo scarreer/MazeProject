@@ -1,26 +1,16 @@
 package classes;
-/*
- * Calculate the 2.5d environment given a map, and passes values to
- * GuiMaze to be rendered. 
- * 
- * (a temporary map is being used for testing)
- * 
- * 
- * TODO: add collision detection, add auto move for auto solve
- * 
- * @Author Levi Fowler
- */
-
 
 import edu.princeton.cs.algs4.StdDraw;
+import java.awt.event.KeyEvent;
 
 public class Raycasting {
     public int resolution;
-    private float[] distanceArray;
-    private boolean[] shadeArray;
+    private static float[] distanceArray;
+    private static boolean[] shadeArray;
+    private static int[] colorArray;
 
     public static final int[][] MAP = {
-        {1,1,1,1,1,1,1,1,1,1},
+        {1,2,1,1,1,1,1,1,1,1},
         {1,0,1,0,0,1,0,0,0,1},
         {1,0,1,1,0,1,0,1,0,1},
         {1,0,0,0,0,0,0,0,0,1},
@@ -29,36 +19,34 @@ public class Raycasting {
         {1,0,1,1,1,1,1,1,0,1},
         {1,0,0,1,0,1,0,0,0,1},
         {1,0,0,1,0,0,0,0,0,1},
-        {1,1,1,1,1,1,1,1,1,1}
+        {1,1,1,1,1,1,1,1,3,1}
     };
 
     private static double posX = 1.5, posY = 1.5; 
     private static double dirAngle = 0.0;
     private final double FOV = Math.PI / 3;
-    private static boolean wallLit = false;
 
     public Raycasting(int resolution) {
         this.resolution = resolution;
         this.distanceArray = new float[resolution];
+        this.colorArray = new int[resolution];
         this.shadeArray = new boolean[resolution];
     }
 
     public void update() {
         handleInput();
         for (int i = 0; i < resolution; i++) {
-            double rayAngle = (dirAngle - FOV / 2.0) + (i / (double)resolution) * FOV;            
-            distanceArray[i] = (float) castStepping(rayAngle);
-            shadeArray[i] = wallLit;
+            double rayAngle = (dirAngle - FOV / 2.0) + (i / (double)resolution) * FOV;
+            // Pass the current index 'i' to the method instead of using a global static 'column'
+            distanceArray[i] = (float) castStepping(rayAngle, i);
         }
     }
 
-    private double castStepping(double rayAngle) {
+    private double castStepping(double rayAngle, int col) {
         double distance = 0;
-        double step = 0.02;
-        
+        double step = 0.01;
         double currX = posX;
         double currY = posY;
-        
 
         while (distance < 15.0) {
             distance += step;
@@ -67,21 +55,26 @@ public class Raycasting {
             double nextY = posY + Math.sin(rayAngle) * distance;
 
             if ((int)nextX != (int)currX) {
-                if (MAP[(int)currY][(int)nextX] == 1) {
-                    wallLit = true;
+                if (MAP[(int)currY][(int)nextX] > 0) {
+                    shadeArray[col] = true;
+                    colorArray[col] = MAP[(int)currY][(int)nextX];
                     return finalizeDistance(distance, rayAngle);
                 }
             }
             currX = nextX;
 
             if ((int)nextY != (int)currY) {
-                if (MAP[(int)nextY][(int)currX] == 1) {
-                	wallLit = false;
+                if (MAP[(int)nextY][(int)currX] > 0) {
+                    shadeArray[col] = false;
+                    colorArray[col] = MAP[(int)nextY][(int)currX];
                     return finalizeDistance(distance, rayAngle);
                 }
             }
             currY = nextY;
         }
+        
+        // If nothing is hit
+        colorArray[col] = 0;
         return 15.0;
     }
 
@@ -93,25 +86,21 @@ public class Raycasting {
         double moveSpeed = 0.08;
         double rotSpeed = 0.05;
         
-        if (StdDraw.isKeyPressed(java.awt.event.KeyEvent.VK_A) ||
-        		StdDraw.isKeyPressed(java.awt.event.KeyEvent.VK_LEFT)) {
-        	dirAngle -= rotSpeed;
+        if (StdDraw.isKeyPressed(KeyEvent.VK_A) || StdDraw.isKeyPressed(KeyEvent.VK_LEFT)) {
+            dirAngle -= rotSpeed;
         }
-        if (StdDraw.isKeyPressed(java.awt.event.KeyEvent.VK_D) ||
-        		StdDraw.isKeyPressed(java.awt.event.KeyEvent.VK_RIGHT)) {
-        	dirAngle += rotSpeed;
+        if (StdDraw.isKeyPressed(KeyEvent.VK_D) || StdDraw.isKeyPressed(KeyEvent.VK_RIGHT)) {
+            dirAngle += rotSpeed;
         }
         
         double nextX = posX;
         double nextY = posY;
 
-        if (StdDraw.isKeyPressed(java.awt.event.KeyEvent.VK_W) || 
-            StdDraw.isKeyPressed(java.awt.event.KeyEvent.VK_UP)) {
+        if (StdDraw.isKeyPressed(KeyEvent.VK_W) || StdDraw.isKeyPressed(KeyEvent.VK_UP)) {
             nextX += Math.cos(dirAngle) * moveSpeed;
             nextY += Math.sin(dirAngle) * moveSpeed;
         }
-        if (StdDraw.isKeyPressed(java.awt.event.KeyEvent.VK_S) || 
-            StdDraw.isKeyPressed(java.awt.event.KeyEvent.VK_DOWN)) {
+        if (StdDraw.isKeyPressed(KeyEvent.VK_S) || StdDraw.isKeyPressed(KeyEvent.VK_DOWN)) {
             nextX -= Math.cos(dirAngle) * moveSpeed;
             nextY -= Math.sin(dirAngle) * moveSpeed;
         }
@@ -125,14 +114,17 @@ public class Raycasting {
                 posY = nextY;
             }
         }
-        
-        
     }
 
-    public float[] getDistances() {
+    public float[] getDistances() { 
     	return distanceArray; 
     }
-    public boolean[] getBrightness() {
+    
+    public boolean[] getBrightness() { 
     	return shadeArray; 
+    }
+    
+    public int[] getColorArray() { 
+    	return colorArray; 
     }
 }
