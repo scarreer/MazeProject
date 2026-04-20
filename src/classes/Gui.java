@@ -20,7 +20,8 @@ public class Gui extends JFrame {
 	private JPanel contentPane;
 	private Dimension buttonSize = new Dimension(200, 70);
 	private Font buttonFont = new Font("Tahoma", Font.PLAIN, 21);
-	private MazeCell[][] maze = new MazeCell[10][10];
+	private int size = 11;
+	private MazeCell[][] maze = new MazeCell[size][size];
 
 	/**
 	 * Launch the application.
@@ -75,7 +76,7 @@ public class Gui extends JFrame {
 		lblTitle.setBounds(54, 130, 48, 14);
 		titlePanel.add(lblTitle);
 		
-		JPanel mazePanel = createMazePanel(10);
+		JPanel mazePanel = createMazePanel(size);
 		contentPane.add(mazePanel);
 	}	
 	
@@ -104,8 +105,7 @@ public class Gui extends JFrame {
 		Dimension dimension;
 		
 		switch(size) {
-		case 10: dimension = new Dimension(38, 38); break;
-		default: dimension = new Dimension(38, 38); break;
+		default: dimension = new Dimension(33, 33); break;
 		}
 		
 		char type;
@@ -139,9 +139,9 @@ public class Gui extends JFrame {
 		
 		playMaze.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int[][] array = new int[10][10];
-				for(int i = 0; i < 10; i++) {
-					for(int j = 0; j < 10; j++) {
+				int[][] array = new int[size][size];
+				for(int i = 0; i < size; i++) {
+					for(int j = 0; j < size; j++) {
 						array[i][j] = (maze[i][j].isFilled() ? 1 : 0);
 					}
 					
@@ -183,8 +183,8 @@ public class Gui extends JFrame {
 		generateMaze.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int[][] array = Maze.generateMaze();
-				for(int i = 0; i < 10; i++) {
-					for(int j = 0; j < 10; j++) {
+				for(int i = 0; i < size; i++) {
+					for(int j = 0; j < size; j++) {
 						switch(array[i][j]) {
 						case 0: maze[i][j].setFilled(false);
 						case 1: maze[i][j].setFilled(true);
