@@ -14,7 +14,7 @@ public class Raycasting {
     private static boolean[] shadeArray;
     private static int[] colorArray;
 
-    public static int[][] MAP = {
+    public static int[][] map = {
         {1,2,1,1,1,1,1,1,1,1},
         {1,0,1,0,0,1,0,0,0,1},
         {1,0,1,1,0,1,0,1,0,1},
@@ -26,6 +26,8 @@ public class Raycasting {
         {1,0,0,1,0,0,0,0,0,1},
         {1,1,1,1,1,1,1,1,3,1}
     };
+    
+
 
     private static double posX = 1.5, posY = 1.5; 
     private static double dirAngle = 0.0;
@@ -36,6 +38,7 @@ public class Raycasting {
         this.distanceArray = new float[resolution];
         this.colorArray = new int[resolution];
         this.shadeArray = new boolean[resolution];
+        map = Maze.generateMaze();
     }
 
     public void update() {
@@ -59,18 +62,18 @@ public class Raycasting {
             double nextY = posY + Math.sin(rayAngle) * distance;
 
             if ((int)nextX != (int)currX) {
-                if (MAP[(int)currY][(int)nextX] > 0) {
+                if (map[(int)currY][(int)nextX] > 0) {
                     shadeArray[col] = true;
-                    colorArray[col] = MAP[(int)currY][(int)nextX];
+                    colorArray[col] = map[(int)currY][(int)nextX];
                     return finalizeDistance(distance, rayAngle);
                 }
             }
             currX = nextX;
 
             if ((int)nextY != (int)currY) {
-                if (MAP[(int)nextY][(int)currX] > 0) {
+                if (map[(int)nextY][(int)currX] > 0) {
                     shadeArray[col] = false;
-                    colorArray[col] = MAP[(int)nextY][(int)currX];
+                    colorArray[col] = map[(int)nextY][(int)currX];
                     return finalizeDistance(distance, rayAngle);
                 }
             }
@@ -111,8 +114,8 @@ public class Raycasting {
         int ix = (int)nextX;
         int iy = (int)nextY;
         
-        if (iy >= 0 && iy < MAP.length && ix >= 0 && ix < MAP[0].length) {
-            if (MAP[iy][ix] == 0) {
+        if (iy >= 0 && iy < map.length && ix >= 0 && ix < map[0].length) {
+            if (map[iy][ix] == 0) {
                 posX = nextX;
                 posY = nextY;
             }
@@ -132,6 +135,10 @@ public class Raycasting {
     }
     
     public static void updateMap(int[][] newMap) {
-    	MAP = newMap;
+    	map = newMap;
+    }
+    
+    public static int[][] getMap() {
+    	return map;
     }
 }

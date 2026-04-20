@@ -140,11 +140,13 @@ public class Gui extends JFrame {
 					}
 					
 					array[0][1] = 2;
-					array[10][9] = 3;
+					array[9][8] = 3;
 				}
+				
 		        setVisible(false);
 		        new Thread(() -> {
 		            Raycasting.updateMap(array);
+		            GuiMaze.main(null);
 		        }).start();
 		    }
 		});

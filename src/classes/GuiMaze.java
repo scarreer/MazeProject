@@ -19,7 +19,7 @@ import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 
 public class GuiMaze {
-    private static int currentResolution = 500; 
+    private static int currentResolution = 320; 
     private static Raycasting engine = new Raycasting(currentResolution);
 
     public static void main(String[] args) {
@@ -83,7 +83,7 @@ public class GuiMaze {
             double halfWidth = 0.5;
             double halfHeight = 400.0 / distance; 
 
-            StdDraw.filledRectangle(x, y, halfWidth + 1, halfHeight);
+            StdDraw.filledRectangle(x, y, halfWidth, halfHeight);
         }
         
         StdDraw.show();
