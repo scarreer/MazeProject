@@ -18,7 +18,8 @@ public class Gui extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private Dimension buttonSize = new Dimension(300, 100);
+	private Dimension buttonSize = new Dimension(200, 70);
+	private Font buttonFont = new Font("Tahoma", Font.PLAIN, 21);
 	private MazeCell[][] maze = new MazeCell[10][10];
 
 	/**
@@ -49,7 +50,7 @@ public class Gui extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel btnPanel = new JPanel();
-		btnPanel.setBounds(490, 110, 300, 553);
+		btnPanel.setBounds(490, 100, 300, 553);
 		contentPane.add(btnPanel);
 		btnPanel.setLayout(null);
 		
@@ -59,6 +60,11 @@ public class Gui extends JFrame {
 		JButton solveMaze = solveMazeBtn();
 		btnPanel.add(solveMaze);
 		
+		JButton generateMaze = generateMazeBtn();
+		btnPanel.add(generateMaze);
+		
+		JButton resetMaze = resetMazeBtn();
+		btnPanel.add(resetMaze);
 		
 		JPanel titlePanel = new JPanel();
 		titlePanel.setBounds(0, 0, 886, 72);
@@ -94,7 +100,7 @@ public class Gui extends JFrame {
 		//TODO implement other sizes. Add buttons to interface for other sizes
 		
 		JPanel mazePanel = new JPanel();
-		mazePanel.setBounds(27, 99, 436, 430);
+		mazePanel.setBounds(27, 100, 436, 430);
 		Dimension dimension;
 		
 		switch(size) {
@@ -122,13 +128,13 @@ public class Gui extends JFrame {
 	
 	public JButton playMazeBtn() {
 		JButton playMaze = new JButton("Play Maze");
-		playMaze.setBounds(0, 178, 300, 100);
+		playMaze.setBounds(0, 0, 300, 100);
 		
 		//TODO add attributes of the button
 		playMaze.setPreferredSize(buttonSize);
 		playMaze.setMaximumSize(buttonSize);
 		playMaze.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		playMaze.setFont(new Font("Tahoma", Font.PLAIN, 21));
+		playMaze.setFont(buttonFont);
 
 		
 		playMaze.addActionListener(new ActionListener() {
@@ -142,7 +148,6 @@ public class Gui extends JFrame {
 					array[0][1] = 2;
 					array[9][8] = 3;
 				}
-				
 		        setVisible(false);
 		        new Thread(() -> {
 		            Raycasting.updateMap(array);
@@ -156,7 +161,7 @@ public class Gui extends JFrame {
 	
 	public JButton solveMazeBtn() {
 		JButton solveMaze = new JButton("Solve Maze");
-		solveMaze.setBounds(0, 314, 300, 100);
+		solveMaze.setBounds(0, 115, 300, 100);
 		
 		solveMaze.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -164,11 +169,52 @@ public class Gui extends JFrame {
 			}
 		});
 		
-		//TODO add attributes of the button
 		solveMaze.setPreferredSize(buttonSize);
 		solveMaze.setMaximumSize(buttonSize);
 		solveMaze.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		solveMaze.setFont(new Font("Tahoma", Font.PLAIN, 21));
+		solveMaze.setFont(buttonFont);
 		return solveMaze;
+	}
+	
+	public JButton generateMazeBtn() {
+		JButton generateMaze = new JButton("Generate Maze");
+		generateMaze.setBounds(0, 230, 300, 100);
+		
+		generateMaze.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int[][] array = Maze.generateMaze();
+				for(int i = 0; i < 10; i++) {
+					for(int j = 0; j < 10; j++) {
+						switch(array[i][j]) {
+						case 0: maze[i][j].setFilled(false);
+						case 1: maze[i][j].setFilled(true);
+						}
+					}
+				}
+			}
+		});
+		
+		generateMaze.setPreferredSize(buttonSize);
+		generateMaze.setMaximumSize(buttonSize);
+		generateMaze.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		generateMaze.setFont(buttonFont);
+		return generateMaze;
+	}
+	
+	public JButton resetMazeBtn() {
+		JButton resetMaze = new JButton("Reset Maze");
+		resetMaze.setBounds(0, 345, 300, 100);
+		
+		resetMaze.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO
+			}
+		});
+		
+		resetMaze.setPreferredSize(buttonSize);
+		resetMaze.setMaximumSize(buttonSize);
+		resetMaze.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		resetMaze.setFont(buttonFont);
+		return resetMaze;
 	}
 }
