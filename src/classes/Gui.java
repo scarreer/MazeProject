@@ -1,4 +1,4 @@
-package classes
+package classes;
 
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
@@ -122,11 +122,6 @@ public class Gui extends JFrame {
 	public JButton playMazeBtn() {
 		JButton playMaze = new JButton("Play Maze");
 		playMaze.setBounds(0, 178, 300, 100);
-		playMaze.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//TODO
-			}
-		});
 		
 		//TODO add attributes of the button
 		playMaze.setPreferredSize(buttonSize);
@@ -134,6 +129,16 @@ public class Gui extends JFrame {
 		playMaze.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		playMaze.setFont(new Font("Tahoma", Font.PLAIN, 21));
 
+		
+		playMaze.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+		        setVisible(false);
+		        new Thread(() -> {
+		            GuiMaze.main(null);
+		        }).start();
+		    }
+		});
+		
 		return playMaze;
 	}
 	

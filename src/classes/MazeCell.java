@@ -1,4 +1,4 @@
-package classes
+package classes;
 
 import java.awt.Color;
 import java.awt.Dimension;
