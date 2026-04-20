@@ -1,4 +1,3 @@
-
 /*
  * @Author Levi Fowler
  */
@@ -30,11 +29,9 @@ public class Raycasting {
         {1,1,1,1,1,1,1,1,3,1}
     };
     
-
-
     private static double posX = 1.5, posY = 1.5; 
-    private static double dirAngle = 0;
-    private final double FOV = 60.0;
+    private static double dirAngle = 0; // Measured in Degrees (0-360)
+    private final double FOV = 60.0;     // Measured in Degrees
 
     public Raycasting(int resolution) {
         this.resolution = resolution;
@@ -45,13 +42,11 @@ public class Raycasting {
     }
 
     public void update() {
-    	if(autoPlay) {
-            
-    	} else {
-    		handleInput();
-    		StdOut.println(dirAngle);
-    		moveUp();
-    	}
+        if(autoPlay) {
+            // AutoPlay logic here
+        } else {
+            handleInput();
+        }
 
         for (int i = 0; i < resolution; i++) {
             double rayAngle = (dirAngle - FOV / 2.0) + (i / (double)resolution) * FOV;
@@ -64,12 +59,14 @@ public class Raycasting {
         double step = 0.02;
         double currX = posX;
         double currY = posY;
+        
+        double rayRad = Math.toRadians(rayAngle);
 
         while (distance < 15.0) {
             distance += step;
 
-            double nextX = posX + Math.cos(rayAngle) * distance;
-            double nextY = posY + Math.sin(rayAngle) * distance;
+            double nextX = posX + Math.cos(rayRad) * distance;
+            double nextY = posY + Math.sin(rayRad) * distance;
 
             if ((int)nextX != (int)currX) {
                 if (map[(int)currY][(int)nextX] > 0) {
@@ -95,17 +92,16 @@ public class Raycasting {
     }
 
     private double finalizeDistance(double dist, double rayAngle) {
-        return dist * Math.cos(rayAngle - dirAngle);
+        return dist * Math.cos(Math.toRadians(rayAngle - dirAngle));
     }
     
     private void normalizeAngle() {
-        // Ensures dirAngle stays between 0 and 359.99...
         dirAngle = (dirAngle % 360 + 360) % 360;
     }
 
     private void handleInput() {
         double moveSpeed = 0.08;
-        double rotSpeed = 0.05;
+        double rotSpeed = 3.0;
         
         if (StdDraw.isKeyPressed(KeyEvent.VK_A) || StdDraw.isKeyPressed(KeyEvent.VK_LEFT)) {
             dirAngle -= rotSpeed;
@@ -114,19 +110,19 @@ public class Raycasting {
             dirAngle += rotSpeed;
         }
 
-        // Wrap the angle here!
         normalizeAngle();
         
         double nextX = posX;
         double nextY = posY;
+        double dirRad = Math.toRadians(dirAngle);
 
         if (StdDraw.isKeyPressed(KeyEvent.VK_W) || StdDraw.isKeyPressed(KeyEvent.VK_UP)) {
-            nextX += Math.cos(dirAngle) * moveSpeed;
-            nextY += Math.sin(dirAngle) * moveSpeed;
+            nextX += Math.cos(dirRad) * moveSpeed;
+            nextY += Math.sin(dirRad) * moveSpeed;
         }
         if (StdDraw.isKeyPressed(KeyEvent.VK_S) || StdDraw.isKeyPressed(KeyEvent.VK_DOWN)) {
-            nextX -= Math.cos(dirAngle) * moveSpeed;
-            nextY -= Math.sin(dirAngle) * moveSpeed;
+            nextX -= Math.cos(dirRad) * moveSpeed;
+            nextY -= Math.sin(dirRad) * moveSpeed;
         }
 
         int ix = (int)nextX;
@@ -141,44 +137,16 @@ public class Raycasting {
     }
     
     public static void moveUp() {
-    	dirAngle = Math.round(dirAngle);
-    	if(dirAngle != 90) {
-    		dirAngle+=0.1;
-    	}
 
     }
     
-    public static void moveDown() {
-    	
-    }
-    
-    public static void moveLeft() {
-    	
-    }
-    
-    public static void moveRight() {
-    	
-    }
+    public static void moveDown() {}
+    public static void moveLeft() {}
+    public static void moveRight() {}
 
-    public float[] getDistances() { 
-    	return distanceArray; 
-    }
-    
-    public boolean[] getBrightness() { 
-    	return shadeArray; 
-    }
-    
-    public int[] getColorArray() { 
-    	return colorArray; 
-    }
-    
-    public static void updateMap(int[][] newMap) {
-    	map = newMap;
-    }
-    
-    public static int[][] getMap() {
-    	return map;
-    }
-    
-
+    public float[] getDistances() { return distanceArray; }
+    public boolean[] getBrightness() { return shadeArray; }
+    public int[] getColorArray() { return colorArray; }
+    public static void updateMap(int[][] newMap) { map = newMap; }
+    public static int[][] getMap() { return map; }
 }
