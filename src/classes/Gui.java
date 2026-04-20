@@ -186,8 +186,8 @@ public class Gui extends JFrame {
 				for(int i = 0; i < size; i++) {
 					for(int j = 0; j < size; j++) {
 						switch(array[i][j]) {
-						case 0: maze[i][j].setFilled(false);
-						case 1: maze[i][j].setFilled(true);
+						case 0: maze[i][j].setFilled(false); break;
+						case 1: maze[i][j].setFilled(true); break;
 						}
 					}
 				}

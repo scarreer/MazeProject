@@ -6,6 +6,8 @@
 package classes;
 
 import edu.princeton.cs.algs4.StdDraw;
+import edu.princeton.cs.algs4.StdOut;
+
 import java.awt.event.KeyEvent;
 
 public class Raycasting {
@@ -13,6 +15,7 @@ public class Raycasting {
     private static float[] distanceArray;
     private static boolean[] shadeArray;
     private static int[] colorArray;
+    public static boolean autoPlay = false;
 
     public static int[][] map = {
         {1,2,1,1,1,1,1,1,1,1},
@@ -30,19 +33,26 @@ public class Raycasting {
 
 
     private static double posX = 1.5, posY = 1.5; 
-    private static double dirAngle = 0.0;
-    private final double FOV = Math.PI / 3;
+    private static double dirAngle = 0;
+    private final double FOV = 60.0;
 
     public Raycasting(int resolution) {
         this.resolution = resolution;
-        this.distanceArray = new float[resolution];
-        this.colorArray = new int[resolution];
-        this.shadeArray = new boolean[resolution];
+        distanceArray = new float[resolution];
+        colorArray = new int[resolution];
+        shadeArray = new boolean[resolution];
         map = Maze.generateMaze();
     }
 
     public void update() {
-        handleInput();
+    	if(autoPlay) {
+            
+    	} else {
+    		handleInput();
+    		StdOut.println(dirAngle);
+    		moveUp();
+    	}
+
         for (int i = 0; i < resolution; i++) {
             double rayAngle = (dirAngle - FOV / 2.0) + (i / (double)resolution) * FOV;
             distanceArray[i] = (float) castStepping(rayAngle, i);
@@ -87,6 +97,11 @@ public class Raycasting {
     private double finalizeDistance(double dist, double rayAngle) {
         return dist * Math.cos(rayAngle - dirAngle);
     }
+    
+    private void normalizeAngle() {
+        // Ensures dirAngle stays between 0 and 359.99...
+        dirAngle = (dirAngle % 360 + 360) % 360;
+    }
 
     private void handleInput() {
         double moveSpeed = 0.08;
@@ -98,6 +113,9 @@ public class Raycasting {
         if (StdDraw.isKeyPressed(KeyEvent.VK_D) || StdDraw.isKeyPressed(KeyEvent.VK_RIGHT)) {
             dirAngle += rotSpeed;
         }
+
+        // Wrap the angle here!
+        normalizeAngle();
         
         double nextX = posX;
         double nextY = posY;
@@ -121,6 +139,26 @@ public class Raycasting {
             }
         }
     }
+    
+    public static void moveUp() {
+    	dirAngle = Math.round(dirAngle);
+    	if(dirAngle != 90) {
+    		dirAngle+=0.1;
+    	}
+
+    }
+    
+    public static void moveDown() {
+    	
+    }
+    
+    public static void moveLeft() {
+    	
+    }
+    
+    public static void moveRight() {
+    	
+    }
 
     public float[] getDistances() { 
     	return distanceArray; 
@@ -141,4 +179,6 @@ public class Raycasting {
     public static int[][] getMap() {
     	return map;
     }
+    
+
 }
