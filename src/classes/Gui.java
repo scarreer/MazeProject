@@ -1,4 +1,4 @@
-package classes;
+package classes
 
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
@@ -8,19 +8,12 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 
-import javax.swing.BoxLayout;
 import java.awt.Font;
 import javax.swing.JLabel;
 
-/**
-* Creates the initial window for the Maze.
-*
-* @author Davis Martin
-*/
 public class Gui extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -70,16 +63,16 @@ public class Gui extends JFrame {
 		titlePanel.setBounds(0, 0, 886, 72);
 		contentPane.add(titlePanel);
 		
-		JLabel lblNewLabel = new JLabel("Maze");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 50));
-		lblNewLabel.setBounds(54, 130, 48, 14);
-		titlePanel.add(lblNewLabel);
-
+		JLabel lblTitle = new JLabel("Maze");
+		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 50));
+		lblTitle.setBounds(54, 130, 48, 14);
+		titlePanel.add(lblTitle);
+		
+		JPanel mazePanel = createMazePanel(10);
+		contentPane.add(mazePanel);
 	}	
 	
-	/**
-	* Marks a given cell filled or unfilled.
-	*/
+			
 	public void clickCell(MazeCell cell) {
 		if(cell.isFilled()) {
 			cell.setFilled(false);
@@ -96,35 +89,54 @@ public class Gui extends JFrame {
 		
 	}
 
-	/**
-	* Creates the Play Maze button
-	*/
-	public JButton playMazeBtn() {
-	    JButton playMaze = new JButton("Play Maze");
-	    playMaze.setBounds(0, 178, 300, 100);
-	    playMaze.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent e) {
-	            new Thread(() -> {
-	                try {
-	                    GuiMaze.main(null);
-	                } catch (Exception ex) {
-	                    ex.printStackTrace();
-	                }
-	            }).start();
-	        }
-	    });
-	    
-	    playMaze.setPreferredSize(buttonSize);
-	    playMaze.setMaximumSize(buttonSize);
-	    playMaze.setAlignmentX(Component.RIGHT_ALIGNMENT);
-	    playMaze.setFont(new Font("Tahoma", Font.PLAIN, 21));
-
-	    return playMaze;
+	public JPanel createMazePanel(int size) {
+		//TODO implement other sizes. Add buttons to interface for other sizes
+		MazeCell[][] maze = new MazeCell[10][10];
+		JPanel mazePanel = new JPanel();
+		mazePanel.setBounds(27, 99, 436, 430);
+		Dimension dimension;
+		
+		switch(size) {
+		case 10: dimension = new Dimension(38, 38); break;
+		default: dimension = new Dimension(38, 38); break;
+		}
+		
+		char type;
+		for(int i = 0; i < size; i++) {
+			for(int j = 0; j < size; j++) {
+				if(i == 1 && j == 1) {
+					type = 's';
+				}else if(i == size-2 && j == size-2) {
+					type = 'e';
+				}else {
+					type = 'r';
+				}
+				maze[i][j] = new MazeCell(i, j, (i == 0 || j == 0 || i == size-1 || j == size-1), dimension, type);
+				mazePanel.add(maze[i][j]);
+			}
+		}
+		
+		return mazePanel;
 	}
+	
+	public JButton playMazeBtn() {
+		JButton playMaze = new JButton("Play Maze");
+		playMaze.setBounds(0, 178, 300, 100);
+		playMaze.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO
+			}
+		});
+		
+		//TODO add attributes of the button
+		playMaze.setPreferredSize(buttonSize);
+		playMaze.setMaximumSize(buttonSize);
+		playMaze.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		playMaze.setFont(new Font("Tahoma", Font.PLAIN, 21));
 
-	/**
-	* Creates the Solve Maze button
-	*/
+		return playMaze;
+	}
+	
 	public JButton solveMazeBtn() {
 		JButton solveMaze = new JButton("Solve Maze");
 		solveMaze.setBounds(0, 314, 300, 100);
