@@ -48,7 +48,7 @@ public class Raycasting {
 
     private double castStepping(double rayAngle, int col) {
         double distance = 0;
-        double step = 0.01;
+        double step = 0.02;
         double currX = posX;
         double currY = posY;
 

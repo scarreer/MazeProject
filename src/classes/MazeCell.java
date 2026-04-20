@@ -18,6 +18,12 @@ public class MazeCell extends JButton {
 	public MazeCell(int x, int y, boolean filled, Dimension size, char type) {
 		this.x = x;
 		this.y = y;
+		
+		this.setContentAreaFilled(true);
+	    this.setOpaque(true); 
+	    this.setBorderPainted(false);
+	    
+	    
 		this.setFilled(filled);
 		if(filled) {
 			this.isBorder = true;
@@ -54,5 +60,8 @@ public class MazeCell extends JButton {
 		}else {
 			this.setBackground(Color.WHITE);
 		}
+		
+		this.repaint();
+	    this.revalidate();
 	}
 }
