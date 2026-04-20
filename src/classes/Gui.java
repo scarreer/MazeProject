@@ -19,6 +19,7 @@ public class Gui extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private Dimension buttonSize = new Dimension(300, 100);
+	private MazeCell[][] maze = new MazeCell[10][10];
 
 	/**
 	 * Launch the application.
@@ -91,7 +92,7 @@ public class Gui extends JFrame {
 
 	public JPanel createMazePanel(int size) {
 		//TODO implement other sizes. Add buttons to interface for other sizes
-		MazeCell[][] maze = new MazeCell[10][10];
+		
 		JPanel mazePanel = new JPanel();
 		mazePanel.setBounds(27, 99, 436, 430);
 		Dimension dimension;
@@ -132,9 +133,18 @@ public class Gui extends JFrame {
 		
 		playMaze.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int[][] array = new int[10][10];
+				for(int i = 0; i < 10; i++) {
+					for(int j = 0; j < 10; j++) {
+						array[i][j] = (maze[i][j].isFilled() ? 1 : 0);
+					}
+					
+					array[0][1] = 2;
+					array[10][9] = 3;
+				}
 		        setVisible(false);
 		        new Thread(() -> {
-		            GuiMaze.main(null);
+		            Raycasting.updateMap(array);
 		        }).start();
 		    }
 		});
