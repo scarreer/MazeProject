@@ -165,7 +165,7 @@ public class Gui extends JFrame {
 		
 		solveMaze.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO
+				Maze.solveMaze();
 			}
 		});
 		
