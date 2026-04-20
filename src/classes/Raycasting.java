@@ -1,3 +1,8 @@
+
+/*
+ * @Author Levi Fowler
+ */
+
 package classes;
 
 import edu.princeton.cs.algs4.StdDraw;
@@ -9,7 +14,7 @@ public class Raycasting {
     private static boolean[] shadeArray;
     private static int[] colorArray;
 
-    public static final int[][] MAP = {
+    public static int[][] MAP = {
         {1,2,1,1,1,1,1,1,1,1},
         {1,0,1,0,0,1,0,0,0,1},
         {1,0,1,1,0,1,0,1,0,1},
@@ -37,7 +42,6 @@ public class Raycasting {
         handleInput();
         for (int i = 0; i < resolution; i++) {
             double rayAngle = (dirAngle - FOV / 2.0) + (i / (double)resolution) * FOV;
-            // Pass the current index 'i' to the method instead of using a global static 'column'
             distanceArray[i] = (float) castStepping(rayAngle, i);
         }
     }
@@ -73,7 +77,6 @@ public class Raycasting {
             currY = nextY;
         }
         
-        // If nothing is hit
         colorArray[col] = 0;
         return 15.0;
     }
@@ -126,5 +129,9 @@ public class Raycasting {
     
     public int[] getColorArray() { 
     	return colorArray; 
+    }
+    
+    public static void updateMap(int[][] newMap) {
+    	MAP = newMap;
     }
 }

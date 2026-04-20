@@ -3,7 +3,7 @@ package classes;
  * Class to take the values from the raycasting class and render them onto
  * the screen.
  * 
- * TODO: add instructions, add more detailed rendering
+ * TODO: add instructions
  * 
  * @Author Levi Fowler
  */
@@ -90,12 +90,10 @@ public class GuiMaze {
     
     private static void removeMenuBar() {
         try {
-            // Access the private 'frame' field in StdDraw
             Field frameField = StdDraw.class.getDeclaredField("frame");
             frameField.setAccessible(true);
             JFrame frame = (JFrame) frameField.get(null);
             
-            // Remove the menu bar
             frame.setJMenuBar(null);
             frame.revalidate();
         } catch (Exception e) {
