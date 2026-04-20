@@ -10,11 +10,11 @@ import edu.princeton.cs.algs4.StdOut;
 import java.awt.event.KeyEvent;
 
 public class Raycasting {
-    public int resolution;
+    public static int resolution;
     private static float[] distanceArray;
     private static boolean[] shadeArray;
     private static int[] colorArray;
-    public static boolean autoPlay = false;
+    public static boolean autoPlay = true;
 
     public static int[][] map = {
         {1,2,1,1,1,1,1,1,1,1},
@@ -30,8 +30,8 @@ public class Raycasting {
     };
     
     private static double posX = 1.5, posY = 1.5; 
-    private static double dirAngle = 0; // Measured in Degrees (0-360)
-    private final double FOV = 60.0;     // Measured in Degrees
+    private static double dirAngle = 0;
+    private final static double FOV = 60.0; 
 
     public Raycasting(int resolution) {
         this.resolution = resolution;
@@ -43,18 +43,29 @@ public class Raycasting {
 
     public void update() {
         if(autoPlay) {
-            // AutoPlay logic here
+            moveRight();
+            
+            try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            
         } else {
             handleInput();
-        }
 
+        }
+        
         for (int i = 0; i < resolution; i++) {
             double rayAngle = (dirAngle - FOV / 2.0) + (i / (double)resolution) * FOV;
             distanceArray[i] = (float) castStepping(rayAngle, i);
         }
+
+
     }
 
-    private double castStepping(double rayAngle, int col) {
+    private static double castStepping(double rayAngle, int col) {
         double distance = 0;
         double step = 0.02;
         double currX = posX;
@@ -91,7 +102,7 @@ public class Raycasting {
         return 15.0;
     }
 
-    private double finalizeDistance(double dist, double rayAngle) {
+    private static double finalizeDistance(double dist, double rayAngle) {
         return dist * Math.cos(Math.toRadians(rayAngle - dirAngle));
     }
     
@@ -136,13 +147,48 @@ public class Raycasting {
         }
     }
     
-    public static void moveUp() {
-
+    public static void moveRight() {
+        dirAngle = 0;
+        int nextX = (int)(posX + 1.0);
+        int nextY = (int)posY;
+        if (isPassable(nextX, nextY)) {
+            posX += 1.0;
+        }
     }
-    
-    public static void moveDown() {}
-    public static void moveLeft() {}
-    public static void moveRight() {}
+
+    public static void moveDown() {
+        dirAngle = 90;
+        int nextX = (int)posX;
+        int nextY = (int)(posY + 1.0);
+        if (isPassable(nextX, nextY)) {
+            posY += 1.0;
+        }
+    }
+
+    public static void moveLeft() {
+        dirAngle = 180;
+        int nextX = (int)(posX - 1.0);
+        int nextY = (int)posY;
+        if (isPassable(nextX, nextY)) {
+            posX -= 1.0;
+        }
+    }
+
+    public static void moveUp() {
+        dirAngle = 270;
+        int nextX = (int)posX;
+        int nextY = (int)(posY - 1.0);
+        if (isPassable(nextX, nextY)) {
+            posY -= 1.0;
+        }
+    }
+
+    private static boolean isPassable(int x, int y) {
+        if (y >= 0 && y < map.length && x >= 0 && x < map[0].length) {
+            return map[y][x] == 0;
+        }
+        return false;
+    }
 
     public float[] getDistances() { return distanceArray; }
     public boolean[] getBrightness() { return shadeArray; }
