@@ -104,9 +104,9 @@ public class Gui extends JFrame {
 		char type;
 		for(int i = 0; i < size; i++) {
 			for(int j = 0; j < size; j++) {
-				if(i == 1 && j == 1) {
+				if(i == 0 && j == 1) {
 					type = 's';
-				}else if(i == size-2 && j == size-2) {
+				}else if(i == size-1 && j == size-2) {
 					type = 'e';
 				}else {
 					type = 'r';
