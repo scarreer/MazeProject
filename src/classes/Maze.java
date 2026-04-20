@@ -1,5 +1,8 @@
 package classes;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 import edu.princeton.cs.algs4.StdRandom;
 
 public class Maze {
@@ -49,7 +52,32 @@ public class Maze {
 	}
 	
 	public static void solveMaze() {
+		int[][] array = mazeToArray(Gui.getMaze());
 		
+		try (FileWriter writer = new FileWriter("src/classes/resources/graph.txt")) {
+			for(int i = 0; i < 11; i++) {
+				for(int j = 0; j < 11; j++) {
+					writer.write("" + i + "," + j + "\n");
+				}
+			}
+			
+            writer.write("Hello, world!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 	}
 
+	private static int[][] mazeToArray(MazeCell[][] maze){
+		int[][] array = new int[11][11];
+		for(int i = 0; i < 11; i++) {
+			for(int j = 0; j < 11; j++) {
+				array[i][j] = (maze[i][j].isFilled() ? 1 : 0);
+			}
+		}
+		array[0][1] = 2;
+		array[10][9] = 3;
+		
+		return array;
+	}
 }
