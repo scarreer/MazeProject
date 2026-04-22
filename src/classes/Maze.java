@@ -62,14 +62,14 @@ public class Maze {
 	
 	public static void solveMaze() {
 		int[][] array = mazeToArray(Gui.getMaze());
-		
+		int vertices = 0;
 		//Writes graph.txt
 		try (FileWriter writer = new FileWriter("src/classes/resources/graph.txt")) {
 			//Helpers
 			StringBuilder sb = new StringBuilder();
 			Map<String, Integer> indexMap = new HashMap<>();
 			List<int[]> reverseMap = new ArrayList<>();
-			int vertices = 0;
+			
 			int edges = 0;
 			
 			//Maps out the vertices to prepare for graphing
@@ -119,7 +119,13 @@ public class Maze {
 		//Creates graph
 		Graph graph = new Graph(new In("src/classes/resources/graph.txt"));
 		DepthFirstPaths dfs = new DepthFirstPaths(graph, 0);
-		System.out.println(dfs.pathTo(48));
+		
+		if(dfs.pathTo(vertices-1) == null) {
+			Gui.displayErrorMessage();
+		}else {
+			System.out.println(dfs.pathTo(vertices-1));
+		}
+		
 	}
 
 	private static int[][] mazeToArray(MazeCell[][] maze){
