@@ -8,10 +8,14 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 
 import java.awt.Font;
+
 import javax.swing.JLabel;
 
 public class Gui extends JFrame {
@@ -20,8 +24,8 @@ public class Gui extends JFrame {
 	private JPanel contentPane;
 	private Dimension buttonSize = new Dimension(200, 70);
 	private Font buttonFont = new Font("Tahoma", Font.PLAIN, 21);
-	private int size = 11;
-	private MazeCell[][] maze = new MazeCell[size][size];
+	private static int size = 11;
+	private static MazeCell[][] maze = new MazeCell[size][size];
 
 	/**
 	 * Launch the application.
@@ -88,16 +92,8 @@ public class Gui extends JFrame {
 			cell.setFilled(true);
 		}
 	}
-	
-	public void playMaze(){
-		
-	}
-	
-	public void solveMaze() {
-		
-	}
 
-	public JPanel createMazePanel(int size) {
+	private JPanel createMazePanel(int size) {
 		//TODO implement other sizes. Add buttons to interface for other sizes
 		
 		JPanel mazePanel = new JPanel();
@@ -115,9 +111,10 @@ public class Gui extends JFrame {
 					type = 's';
 				}else if(i == size-1 && j == size-2) {
 					type = 'e';
-				}else {
+				}else if(i == 1 && j == 1 || i == size-2 && j == size-2){
+					type = 'w';
+				}else
 					type = 'r';
-				}
 				maze[i][j] = new MazeCell(i, j, (i == 0 || j == 0 || i == size-1 || j == size-1), dimension, type);
 				mazePanel.add(maze[i][j]);
 			}
@@ -126,7 +123,7 @@ public class Gui extends JFrame {
 		return mazePanel;
 	}
 	
-	public JButton playMazeBtn() {
+	private JButton playMazeBtn() {
 		JButton playMaze = new JButton("Play Maze");
 		playMaze.setBounds(0, 0, 300, 100);
 		
@@ -159,7 +156,7 @@ public class Gui extends JFrame {
 		return playMaze;
 	}
 	
-	public JButton solveMazeBtn() {
+	private JButton solveMazeBtn() {
 		JButton solveMaze = new JButton("Solve Maze");
 		solveMaze.setBounds(0, 115, 300, 100);
 		
@@ -176,7 +173,7 @@ public class Gui extends JFrame {
 		return solveMaze;
 	}
 	
-	public JButton generateMazeBtn() {
+	private JButton generateMazeBtn() {
 		JButton generateMaze = new JButton("Generate Maze");
 		generateMaze.setBounds(0, 230, 300, 100);
 		
@@ -201,7 +198,7 @@ public class Gui extends JFrame {
 		return generateMaze;
 	}
 	
-	public JButton resetMazeBtn() {
+	private JButton resetMazeBtn() {
 		JButton resetMaze = new JButton("Reset Maze");
 		resetMaze.setBounds(0, 345, 300, 100);
 		
@@ -216,5 +213,23 @@ public class Gui extends JFrame {
 		resetMaze.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		resetMaze.setFont(buttonFont);
 		return resetMaze;
+	}
+	
+	
+	public static MazeCell[][] getMaze(){
+		return maze;
+	}
+	
+	public static void displayErrorMessage() {
+		JFrame errorWindow = new JFrame();
+		errorWindow.setBounds(500, 220, 400, 200);
+		errorWindow.setLayout(new BorderLayout());
+		
+		JLabel errorMess = new JLabel("   Warning: Path could not be found.");
+		errorMess.setFont(new Font("Tacoma", Font.PLAIN, 18));
+		errorMess.setForeground(Color.RED);
+		errorWindow.add(errorMess, BorderLayout.CENTER);
+		
+		errorWindow.setVisible(true);
 	}
 }
