@@ -63,11 +63,12 @@ public class Maze {
 	public static void solveMaze() {
 		int[][] array = mazeToArray(Gui.getMaze());
 		int vertices = 0;
+		Map<String, Integer> indexMap = new HashMap<>();
 		//Writes graph.txt
 		try (FileWriter writer = new FileWriter("src/classes/resources/graph.txt")) {
 			//Helpers
 			StringBuilder sb = new StringBuilder();
-			Map<String, Integer> indexMap = new HashMap<>();
+			
 			List<int[]> reverseMap = new ArrayList<>();
 			
 			int edges = 0;
@@ -124,8 +125,20 @@ public class Maze {
 			Gui.setPossibility(false);
 			Gui.displayErrorMessage();
 		}else {
-			System.out.println(dfs.pathTo(vertices-1));
 			Gui.setPossibility(true);
+
+			for(int index : dfs.pathTo(vertices-1)) {
+				for(int i = 0; i < 11; i++) {
+					for(int j = 0; j < 11; j++) {
+						String key = i + "," + j;
+						if(array[i][j] == 0 && indexMap.get(key) == index) {
+							array[i][j] = 9;
+						}
+					}
+				}
+			}
+		}
+		return array;
 		}
 		
 	}
