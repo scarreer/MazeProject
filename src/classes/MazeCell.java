@@ -35,6 +35,7 @@ public class MazeCell extends JButton {
 		switch(type) {
 		case 's': this.setBackground(Color.GREEN); this.isBorder = true; break;
 		case 'e': this.setBackground(Color.RED); this.isBorder = true; break;
+		case 'w': this.isBorder = true; break;
 		}
 		
 		this.addActionListener(new ActionListener() {
