@@ -17,17 +17,18 @@ public class Raycasting {
     public static boolean autoPlay = false;
 
     public static int[][] map = {
-        {1,2,1,1,1,1,1,1,1,1},
-        {1,0,1,0,0,1,0,0,0,1},
-        {1,0,1,1,0,1,0,1,0,1},
-        {1,0,0,0,0,0,0,0,0,1},
-        {1,1,1,1,1,1,0,1,0,1},
-        {1,0,0,0,0,0,0,0,0,1},
-        {1,0,1,1,1,1,1,1,0,1},
-        {1,0,0,1,0,1,0,0,0,1},
-        {1,0,0,1,0,0,0,0,0,1},
-        {1,1,1,1,1,1,1,1,3,1}
-    };
+	        {1,2,1,1,1,1,1,1,1,1,1},
+	        {1,0,0,0,0,0,0,0,0,0,1},
+	        {1,0,0,0,0,0,0,0,0,0,1},
+	        {1,0,0,0,0,0,0,0,0,0,1},
+	        {1,0,0,0,0,0,0,0,0,0,1},
+	        {1,0,0,0,0,0,0,0,0,0,1},
+	        {1,0,0,0,0,0,0,0,0,0,1},
+	        {1,0,0,0,0,0,0,0,0,0,1},
+	        {1,0,0,0,0,0,0,0,0,0,1},
+	        {1,0,0,0,0,0,0,0,0,0,1},
+	        {1,1,1,1,1,1,1,1,1,3,1}
+	    };
     
     private static double posX = 1.5, posY = 1.5; 
     private static double dirAngle = 0;
@@ -38,7 +39,6 @@ public class Raycasting {
         distanceArray = new float[resolution];
         colorArray = new int[resolution];
         shadeArray = new boolean[resolution];
-        map = Maze.generateMaze();
     }
 
     public void update() {
@@ -80,7 +80,7 @@ public class Raycasting {
             double nextY = posY + Math.sin(rayRad) * distance;
 
             if ((int)nextX != (int)currX) {
-                if (map[(int)currY][(int)nextX] > 0) {
+            	if (map[(int)nextY][(int)currX] > 0) {
                     shadeArray[col] = true;
                     colorArray[col] = map[(int)currY][(int)nextX];
                     return finalizeDistance(distance, rayAngle);

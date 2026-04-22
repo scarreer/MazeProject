@@ -20,20 +20,23 @@ import edu.princeton.cs.algs4.StdRandom;
 
 public class GuiMaze {
     private static int currentResolution = 320; 
-    private static Raycasting engine = new Raycasting(currentResolution);
+    static Raycasting engine;
 
     public static void main(String[] args) {
+        
+        engine = new Raycasting(currentResolution);
+
+
+
         StdDraw.setCanvasSize(1280, 720);
         StdDraw.setXscale(0, currentResolution);
         StdDraw.setYscale(0, 720);
         StdDraw.enableDoubleBuffering();
         removeMenuBar();
-        
-
 
         while (true) {
-            engine.update(); 
-            Render(); 
+            engine.update();
+            Render();
             StdDraw.pause(10);
         }
     }

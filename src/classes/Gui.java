@@ -146,6 +146,9 @@ public class Gui extends JFrame {
 					array[0][1] = 2;
 					array[9][8] = 3;
 				}
+				
+				Raycasting.updateMap(array);
+				
 		        setVisible(false);
 	            Raycasting.AutoPlay(false);
 		        new Thread(() -> {
@@ -177,7 +180,7 @@ public class Gui extends JFrame {
 				}
 				
 				Maze.solveMaze();
-				
+				Raycasting.updateMap(array);
 				if(isPossible) {
 					setVisible(false);
 			        new Thread(() -> {
@@ -228,7 +231,28 @@ public class Gui extends JFrame {
 		
 		resetMaze.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO
+				int[][] array = {
+				        {1,2,1,1,1,1,1,1,1,1,1},
+				        {1,0,0,0,0,0,0,0,0,0,1},
+				        {1,0,0,0,0,0,0,0,0,0,1},
+				        {1,0,0,0,0,0,0,0,0,0,1},
+				        {1,0,0,0,0,0,0,0,0,0,1},
+				        {1,0,0,0,0,0,0,0,0,0,1},
+				        {1,0,0,0,0,0,0,0,0,0,1},
+				        {1,0,0,0,0,0,0,0,0,0,1},
+				        {1,0,0,0,0,0,0,0,0,0,1},
+				        {1,0,0,0,0,0,0,0,0,0,1},
+				        {1,1,1,1,1,1,1,1,1,3,1}
+				    };
+				
+				for(int i = 0; i < size; i++) {
+					for(int j = 0; j < size; j++) {
+						switch(array[i][j]) {
+						case 0: maze[i][j].setFilled(false); break;
+						case 1: maze[i][j].setFilled(true); break;
+						}
+					}
+				}
 			}
 		});
 		

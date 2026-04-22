@@ -142,4 +142,8 @@ public class Maze {
 		
 		return array;
 	}
+	
+	private static void resetMaze() {
+		
+	}
 }
