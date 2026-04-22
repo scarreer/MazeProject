@@ -3,6 +3,7 @@ package classes;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -144,7 +145,7 @@ public class Gui extends JFrame {
 					}
 					
 					array[0][1] = 2;
-					array[9][8] = 3;
+					array[10][9] = 3;
 				}
 				
 				Raycasting.updateMap(array);
@@ -174,19 +175,17 @@ public class Gui extends JFrame {
 					for(int j = 0; j < size; j++) {
 						array[i][j] = (maze[i][j].isFilled() ? 1 : 0);
 					}
-					
-					array[0][1] = 2;
-					array[9][8] = 3;
 				}
 				
-				Maze.solveMaze();
-				Raycasting.updateMap(array);
+				array[0][1] = 2;
+				array[10][9] = 3;
+				
+				Raycasting.updateMap(Maze.solveMaze());
+				
 				if(isPossible) {
 					setVisible(false);
 			        new Thread(() -> {
 			            Raycasting.AutoPlay(true);
-
-			            Raycasting.updateMap(array);
 			            GuiMaze.main(null);	
 			        }).start();
 				}

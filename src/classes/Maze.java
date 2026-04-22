@@ -10,6 +10,7 @@ import java.util.Map;
 import edu.princeton.cs.algs4.DepthFirstPaths;
 import edu.princeton.cs.algs4.Graph;
 import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.LinearProbingHashST;
 import edu.princeton.cs.algs4.StdRandom;
 
 public class Maze {
@@ -60,10 +61,10 @@ public class Maze {
         return maze;
 	}
 	
-	public static void solveMaze() {
+	public static int[][] solveMaze() {
 		int[][] array = mazeToArray(Gui.getMaze());
 		int vertices = 0;
-		Map<String, Integer> indexMap = new HashMap<>();
+		LinearProbingHashST<String, Integer> indexMap = new LinearProbingHashST<>();
 		//Writes graph.txt
 		try (FileWriter writer = new FileWriter("src/classes/resources/graph.txt")) {
 			//Helpers
@@ -139,7 +140,6 @@ public class Maze {
 			}
 		}
 		return array;
-		}
 		
 	}
 
@@ -154,9 +154,5 @@ public class Maze {
 		array[10][9] = 3;
 		
 		return array;
-	}
-	
-	private static void resetMaze() {
-		
 	}
 }

@@ -5,8 +5,6 @@
 package classes;
 
 import edu.princeton.cs.algs4.StdDraw;
-import edu.princeton.cs.algs4.StdOut;
-
 import java.awt.event.KeyEvent;
 
 public class Raycasting {
@@ -42,27 +40,25 @@ public class Raycasting {
     }
 
     public void update() {
-        if(autoPlay) {
-            moveRight();
+        if (autoPlay) {
+            autoSolveStep();
             
             try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-            
+                
+                Thread.sleep(500); 
+                
+                
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         } else {
             handleInput();
-
         }
         
         for (int i = 0; i < resolution; i++) {
             double rayAngle = (dirAngle - FOV / 2.0) + (i / (double)resolution) * FOV;
             distanceArray[i] = (float) castStepping(rayAngle, i);
         }
-
-
     }
 
     private static double castStepping(double rayAngle, int col) {
@@ -80,18 +76,20 @@ public class Raycasting {
             double nextY = posY + Math.sin(rayRad) * distance;
 
             if ((int)nextX != (int)currX) {
-            	if (map[(int)nextY][(int)currX] > 0) {
+                int tile = map[(int)currY][(int)nextX];
+                if (tile > 0 && tile != 9) { 
                     shadeArray[col] = true;
-                    colorArray[col] = map[(int)currY][(int)nextX];
+                    colorArray[col] = tile;
                     return finalizeDistance(distance, rayAngle);
                 }
             }
             currX = nextX;
 
             if ((int)nextY != (int)currY) {
-                if (map[(int)nextY][(int)currX] > 0) {
+                int tile = map[(int)nextY][(int)currX];
+                if (tile > 0 && tile != 9) { 
                     shadeArray[col] = false;
-                    colorArray[col] = map[(int)nextY][(int)currX];
+                    colorArray[col] = tile;
                     return finalizeDistance(distance, rayAngle);
                 }
             }
@@ -185,10 +183,42 @@ public class Raycasting {
 
     private static boolean isPassable(int x, int y) {
         if (y >= 0 && y < map.length && x >= 0 && x < map[0].length) {
-            return map[y][x] == 0;
+            return map[y][x] == 0 || map[y][x] == 9;
         }
         return false;
     }
+    
+    public void autoSolveStep() {
+        int curX = (int) posX;
+        int curY = (int) posY;
+
+        int[][] directions = {
+            {1, 0, 0},
+            {0, 1, 90},
+            {-1, 0, 180},
+            {0, -1, 270} 
+        };
+
+        for (int[] dir : directions) {
+            int nextX = curX + dir[0];
+            int nextY = curY + dir[1];
+            
+            if (isValid(nextX, nextY) && map[nextY][nextX] == 9) {
+                posX = nextX + 0.5;
+                posY = nextY + 0.5;
+                dirAngle = dir[2];
+                
+                map[nextY][nextX] = 0; 
+                return;
+            }
+        }
+    }
+
+    private boolean isValid(int x, int y) {
+        return (y >= 0 && y < map.length && x >= 0 && x < map[0].length);
+    }
+    
+    
     
     public static void AutoPlay(boolean state) {
     	autoPlay = state;
@@ -196,7 +226,12 @@ public class Raycasting {
 
     public float[] getDistances() { return distanceArray; }
     public boolean[] getBrightness() { return shadeArray; }
-    public int[] getColorArray() { return colorArray; }
-    public static void updateMap(int[][] newMap) { map = newMap; }
+    public int[] getColorArray() { 
+    	return colorArray; 
+    	}
+    
+    public static void updateMap(int[][] newMap) {
+    	map = newMap; 
+    }
     public static int[][] getMap() { return map; }
 }
