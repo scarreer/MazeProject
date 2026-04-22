@@ -25,7 +25,8 @@ public class Gui extends JFrame {
 	private Dimension buttonSize = new Dimension(200, 70);
 	private Font buttonFont = new Font("Tahoma", Font.PLAIN, 21);
 	private static int size = 11;
-	private static MazeCell[][] maze = new MazeCell[size][size];
+	private static MazeCell[][] maze = new MazeCell[size][size];	
+	private static boolean isPossible;
 
 	/**
 	 * Launch the application.
@@ -146,9 +147,12 @@ public class Gui extends JFrame {
 					array[9][8] = 3;
 				}
 		        setVisible(false);
+	            Raycasting.AutoPlay(false);
 		        new Thread(() -> {
 		            Raycasting.updateMap(array);
 		            GuiMaze.main(null);
+		    
+
 		        }).start();
 		    }
 		});
@@ -162,7 +166,27 @@ public class Gui extends JFrame {
 		
 		solveMaze.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int[][] array = new int[size][size];
+				for(int i = 0; i < size; i++) {
+					for(int j = 0; j < size; j++) {
+						array[i][j] = (maze[i][j].isFilled() ? 1 : 0);
+					}
+					
+					array[0][1] = 2;
+					array[9][8] = 3;
+				}
+				
 				Maze.solveMaze();
+				
+				if(isPossible) {
+					setVisible(false);
+			        new Thread(() -> {
+			            Raycasting.AutoPlay(true);
+
+			            Raycasting.updateMap(array);
+			            GuiMaze.main(null);	
+			        }).start();
+				}
 			}
 		});
 		
@@ -231,5 +255,9 @@ public class Gui extends JFrame {
 		errorWindow.add(errorMess, BorderLayout.CENTER);
 		
 		errorWindow.setVisible(true);
+	}
+	
+	public static void setPossibility(boolean possible) {
+		isPossible = possible;
 	}
 }

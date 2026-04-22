@@ -121,9 +121,11 @@ public class Maze {
 		DepthFirstPaths dfs = new DepthFirstPaths(graph, 0);
 		
 		if(dfs.pathTo(vertices-1) == null) {
+			Gui.setPossibility(false);
 			Gui.displayErrorMessage();
 		}else {
 			System.out.println(dfs.pathTo(vertices-1));
+			Gui.setPossibility(true);
 		}
 		
 	}

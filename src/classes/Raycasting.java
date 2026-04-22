@@ -14,7 +14,7 @@ public class Raycasting {
     private static float[] distanceArray;
     private static boolean[] shadeArray;
     private static int[] colorArray;
-    public static boolean autoPlay = true;
+    public static boolean autoPlay = false;
 
     public static int[][] map = {
         {1,2,1,1,1,1,1,1,1,1},
@@ -188,6 +188,10 @@ public class Raycasting {
             return map[y][x] == 0;
         }
         return false;
+    }
+    
+    public static void AutoPlay(boolean state) {
+    	autoPlay = state;
     }
 
     public float[] getDistances() { return distanceArray; }
