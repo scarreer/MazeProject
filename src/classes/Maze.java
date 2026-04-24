@@ -10,6 +10,11 @@ import edu.princeton.cs.algs4.Graph;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.LinearProbingHashST;
 
+/**
+* The literal maze.
+*
+* @author Davis Martin && Levi Fowler
+*/
 public class Maze {
 
 	public static void main(String[] args) {
@@ -57,7 +62,10 @@ public class Maze {
 		
         return maze;
 	}
-	
+
+	/**
+	* Finds a solution to the maze and returns an array indicating the solution.
+	*/
 	public static int[][] solveMaze() {
 		int[][] array = mazeToArray(Gui.getMaze());
 		int vertices = 0;
@@ -140,6 +148,9 @@ public class Maze {
 		
 	}
 
+	/**
+	* Converts the maze into an integer array that can be interpreted by other methods.
+	*/
 	private static int[][] mazeToArray(MazeCell[][] maze){
 		int[][] array = new int[11][11];
 		for(int i = 0; i < 11; i++) {
