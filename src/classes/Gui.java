@@ -3,7 +3,6 @@ package classes;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,6 +17,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.JLabel;
+
+
 
 public class Gui extends JFrame {
 
@@ -48,6 +49,8 @@ public class Gui extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	
+	
 	public Gui() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450*2, 300*2);
@@ -85,18 +88,8 @@ public class Gui extends JFrame {
 		JPanel mazePanel = createMazePanel(size);
 		contentPane.add(mazePanel);
 	}	
-	
-			
-	public void clickCell(MazeCell cell) {
-		if(cell.isFilled()) {
-			cell.setFilled(false);
-		}else {
-			cell.setFilled(true);
-		}
-	}
 
 	private JPanel createMazePanel(int size) {
-		//TODO implement other sizes. Add buttons to interface for other sizes
 		
 		JPanel mazePanel = new JPanel();
 		mazePanel.setBounds(27, 100, 436, 430);
@@ -129,7 +122,6 @@ public class Gui extends JFrame {
 		JButton playMaze = new JButton("Play Maze");
 		playMaze.setBounds(0, 0, 300, 100);
 		
-		//TODO add attributes of the button
 		playMaze.setPreferredSize(buttonSize);
 		playMaze.setMaximumSize(buttonSize);
 		playMaze.setAlignmentX(Component.RIGHT_ALIGNMENT);
@@ -164,6 +156,7 @@ public class Gui extends JFrame {
 		return playMaze;
 	}
 	
+	//Button to solve maze and play it.
 	private JButton solveMazeBtn() {
 		JButton solveMaze = new JButton("Solve Maze");
 		solveMaze.setBounds(0, 115, 300, 100);
@@ -280,7 +273,8 @@ public class Gui extends JFrame {
 		errorWindow.setVisible(true);
 	}
 	
-	public static void setPossibility(boolean possible) {
+	
+	public static void isMazePossible(boolean possible) {
 		isPossible = possible;
 	}
 }

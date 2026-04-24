@@ -3,15 +3,12 @@ package classes;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import edu.princeton.cs.algs4.DepthFirstPaths;
 import edu.princeton.cs.algs4.Graph;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.LinearProbingHashST;
-import edu.princeton.cs.algs4.StdRandom;
 
 public class Maze {
 
@@ -22,6 +19,7 @@ public class Maze {
 		System.out.println(i);
 	}
 	
+	//uses the binary tree maze algorithm to generate a random maze.
 	public static int[][] generateMaze() {
 		int[][] maze = new int[11][11];
 
@@ -33,22 +31,21 @@ public class Maze {
         
         for (int i = 1; i < 10; i++) {
             for (int j = 1; j < 10; j++) {
-
                 if (i % 2 == 1 && j % 2 == 1) {
                     maze[i][j] = 0;
 
-                    boolean canGoNorth = (i > 1);
-                    boolean canGoWest = (j > 1);
+                    boolean canGoUp = (i > 1);
+                    boolean canGoLeft = (j > 1);
 
-                    if (canGoNorth && canGoWest) {
-                        if (StdRandom.bernoulli(0.5)) {
+                    if (canGoUp && canGoLeft) {
+                        if (Math.random() < 0.5) {
                             maze[i - 1][j] = 0;
                         } else {
                             maze[i][j - 1] = 0;
                         }
-                    } else if (canGoNorth) {
+                    } else if (canGoUp) {
                         maze[i - 1][j] = 0;
-                    } else if (canGoWest) {
+                    } else if (canGoLeft) {
                         maze[i][j - 1] = 0;
                     }
                 }
@@ -123,10 +120,10 @@ public class Maze {
 		DepthFirstPaths dfs = new DepthFirstPaths(graph, 0);
 		
 		if(dfs.pathTo(vertices-1) == null) {
-			Gui.setPossibility(false);
+			Gui.isMazePossible(false);
 			Gui.displayErrorMessage();
 		}else {
-			Gui.setPossibility(true);
+			Gui.isMazePossible(true);
 
 			for(int index : dfs.pathTo(vertices-1)) {
 				for(int i = 0; i < 11; i++) {

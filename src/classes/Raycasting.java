@@ -45,13 +45,13 @@ public class Raycasting {
         if (autoPlay) {
             autoSolveStep();
             
-            try {
-                
+            try {         
                 Thread.sleep(500);             
                 
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            
         } else {
             handleInput();
         }
@@ -153,41 +153,7 @@ public class Raycasting {
     
     
     //Auto move Methods
-    public static void moveRight() {
-        dirAngle = 0;
-        int nextX = (int)(posX + 1.0);
-        int nextY = (int)posY;
-        if (isPassable(nextX, nextY)) {
-            posX += 1.0;
-        }
-    }
-
-    public static void moveDown() {
-        dirAngle = 90;
-        int nextX = (int)posX;
-        int nextY = (int)(posY + 1.0);
-        if (isPassable(nextX, nextY)) {
-            posY += 1.0;
-        }
-    }
-
-    public static void moveLeft() {
-        dirAngle = 180;
-        int nextX = (int)(posX - 1.0);
-        int nextY = (int)posY;
-        if (isPassable(nextX, nextY)) {
-            posX -= 1.0;
-        }
-    }
-
-    public static void moveUp() {
-        dirAngle = 270;
-        int nextX = (int)posX;
-        int nextY = (int)(posY - 1.0);
-        if (isPassable(nextX, nextY)) {
-            posY -= 1.0;
-        }
-    }
+    
 
     private static boolean isPassable(int x, int y) {
         if (y >= 0 && y < map.length && x >= 0 && x < map[0].length) {
@@ -224,8 +190,9 @@ public class Raycasting {
         }
     }
 
+    //Checks for a valid position when auto solving
     private boolean isValid(int x, int y) {
-        return (y >= 0 && y < map.length && x >= 0 && x < map[0].length);
+        return (y >= 0 && y < 11 && x >= 0 && x < 11);
     }
     
     
@@ -234,14 +201,22 @@ public class Raycasting {
     	autoPlay = state;
     }
 
-    public float[] getDistances() { return distanceArray; }
-    public boolean[] getBrightness() { return shadeArray; }
+    public float[] getDistances() { 
+    	return distanceArray; 
+    }
+    
+    public boolean[] getBrightness() { 
+    	return shadeArray; 
+    }
+    
     public int[] getColorArray() { 
     	return colorArray; 
-    	}
+    }
     
     public static void updateMap(int[][] newMap) {
     	map = newMap; 
     }
-    public static int[][] getMap() { return map; }
+    public static int[][] getMap() {
+    	return map; 
+    }
 }

@@ -3,7 +3,6 @@ package classes;
  * Class to take the values from the raycasting class and render them onto
  * the screen.
  * 
- *
  * 
  * @Author Levi Fowler
  */
@@ -15,8 +14,6 @@ import java.lang.reflect.Field;
 import javax.swing.JFrame;
 
 import edu.princeton.cs.algs4.StdDraw;
-import edu.princeton.cs.algs4.StdOut;
-import edu.princeton.cs.algs4.StdRandom;
 
 public class GuiMaze {
     private static int currentResolution = 320; 
@@ -26,21 +23,22 @@ public class GuiMaze {
         
         engine = new Raycasting(currentResolution);
 
-
-
         StdDraw.setCanvasSize(1280, 720);
         StdDraw.setXscale(0, currentResolution);
         StdDraw.setYscale(0, 720);
         StdDraw.enableDoubleBuffering();
         removeMenuBar();
 
+        
+        //game loop
         while (true) {
             engine.update();
             Render();
             StdDraw.pause(10);
         }
     }
-
+    
+    //Class to Take the wall distances, brightness and colors, and render them
     public static void Render() {
     	
     	//Draws Background
