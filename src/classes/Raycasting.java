@@ -6,12 +6,13 @@
 
 package classes;
 
+import edu.princeton.cs.algs4.Queue;
 import edu.princeton.cs.algs4.StdDraw;
 import java.awt.event.KeyEvent;
 
 public class Raycasting {
     public static int resolution;
-    private static float[] distanceArray;
+    Queue<Float> distanceQueue = new Queue<>();
     private static boolean[] shadeArray;
     private static int[] colorArray;
     public static boolean autoPlay = false;
@@ -36,7 +37,6 @@ public class Raycasting {
 
     public Raycasting(int resolution) {
         this.resolution = resolution;
-        distanceArray = new float[resolution];
         colorArray = new int[resolution];
         shadeArray = new boolean[resolution];
     }
@@ -58,7 +58,7 @@ public class Raycasting {
         
         for (int i = 0; i < resolution; i++) {
             double rayAngle = (dirAngle - FOV / 2.0) + (i / (double)resolution) * FOV;
-            distanceArray[i] = (float) castStepping(rayAngle, i);
+            distanceQueue.enqueue((float) castStepping(rayAngle, i));
         }
     }
 
@@ -152,15 +152,7 @@ public class Raycasting {
     }
     
     
-    //Auto move Methods
-    
 
-    private static boolean isPassable(int x, int y) {
-        if (y >= 0 && y < map.length && x >= 0 && x < map[0].length) {
-            return map[y][x] == 0 || map[y][x] == 9;
-        }
-        return false;
-    }
     
     public void autoSolveStep() {
         int curX = (int) posX;
@@ -201,8 +193,8 @@ public class Raycasting {
     	autoPlay = state;
     }
 
-    public float[] getDistances() { 
-    	return distanceArray; 
+    public Queue<Float> getDistanceQueue() { 
+    	return distanceQueue; 
     }
     
     public boolean[] getBrightness() { 

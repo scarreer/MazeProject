@@ -13,6 +13,7 @@ import java.lang.reflect.Field;
 
 import javax.swing.JFrame;
 
+import edu.princeton.cs.algs4.Queue;
 import edu.princeton.cs.algs4.StdDraw;
 
 public class GuiMaze {
@@ -46,13 +47,13 @@ public class GuiMaze {
         StdDraw.setPenColor(StdDraw.GRAY);
         StdDraw.filledRectangle(0, 0, 1280, 360);
         
-        float[] distances = engine.getDistances();
+        Queue<Float> distances = engine.getDistanceQueue();
         boolean[] wallBrightness = engine.getBrightness();
         int[] wallColors = engine.getColorArray();
 
         for (int i = 0; i < currentResolution; i++) {
-            float distance = distances[i];
-            if (distance < 0.1f) {
+            float distance = distances.dequeue()
+;            if (distance < 0.1f) {
             	distance = 0.1f;
             }
                        
