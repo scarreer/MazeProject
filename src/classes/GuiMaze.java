@@ -3,7 +3,7 @@ package classes;
  * Class to take the values from the raycasting class and render them onto
  * the screen.
  * 
- * TODO: add instructions
+ *
  * 
  * @Author Levi Fowler
  */
@@ -42,6 +42,8 @@ public class GuiMaze {
     }
 
     public static void Render() {
+    	
+    	//Draws Background
         StdDraw.clear(StdDraw.LIGHT_GRAY);
         StdDraw.setPenColor(StdDraw.GRAY);
         StdDraw.filledRectangle(0, 0, 1280, 360);
@@ -52,8 +54,11 @@ public class GuiMaze {
 
         for (int i = 0; i < currentResolution; i++) {
             float distance = distances[i];
-            if (distance < 0.1f) distance = 0.1f;
-            
+            if (distance < 0.1f) {
+            	distance = 0.1f;
+            }
+                       
+            //Sets wall colors and brightness
             if(wallColors[i] == 1) {
 	            if(wallBrightness[i]) {
 	                float brightness = 1.0f - Math.min(1.0f, distance / 10.0f);                
@@ -86,6 +91,9 @@ public class GuiMaze {
             double halfWidth = 0.5;
             double halfHeight = 400.0 / distance; 
 
+            
+            //Uses rectangles instead of lines because for some reason
+            //it renders faster.
             StdDraw.filledRectangle(x, y, halfWidth, halfHeight);
         }
         

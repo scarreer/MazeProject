@@ -1,5 +1,7 @@
 /*
  * @Author Levi Fowler
+ * Uses Raycasting to Calculate the distance from the player to the walls.
+ * Implements an auto solve feature that moves 
  */
 
 package classes;
@@ -45,8 +47,7 @@ public class Raycasting {
             
             try {
                 
-                Thread.sleep(500); 
-                
+                Thread.sleep(500);             
                 
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -61,6 +62,8 @@ public class Raycasting {
         }
     }
 
+    
+    //Raycasting that does NOT use the DDA algorithm
     private static double castStepping(double rayAngle, int col) {
         double distance = 0;
         double step = 0.02;
@@ -75,6 +78,9 @@ public class Raycasting {
             double nextX = posX + Math.cos(rayRad) * distance;
             double nextY = posY + Math.sin(rayRad) * distance;
 
+            
+            //Checks the map grid, for walls, Excluding tile number 9
+            //Tile 9 is reserved as a path for the Autoplay to follow.
             if ((int)nextX != (int)currX) {
                 int tile = map[(int)currY][(int)nextX];
                 if (tile > 0 && tile != 9) { 
@@ -145,6 +151,8 @@ public class Raycasting {
         }
     }
     
+    
+    //Auto move Methods
     public static void moveRight() {
         dirAngle = 0;
         int nextX = (int)(posX + 1.0);
@@ -199,6 +207,8 @@ public class Raycasting {
             {0, -1, 270} 
         };
 
+        
+        //Checks for a 9 in the array, and moves there
         for (int[] dir : directions) {
             int nextX = curX + dir[0];
             int nextY = curY + dir[1];
