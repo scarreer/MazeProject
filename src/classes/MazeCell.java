@@ -7,6 +7,11 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
+/**
+* Each individual cell in the 11x11 maze.
+*
+* @author Davis Martin
+*/
 public class MazeCell extends JButton {
 	private static final long serialVersionUID = 8758030830332429424L;
 	
