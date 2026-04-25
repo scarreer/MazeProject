@@ -19,7 +19,11 @@ import java.awt.Font;
 import javax.swing.JLabel;
 
 
-
+/**
+* Creates the main menu GUI
+*
+* @author Davis Martin && Levi Fowler
+*/
 public class Gui extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -49,8 +53,6 @@ public class Gui extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	
-	
 	public Gui() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450*2, 300*2);
@@ -89,6 +91,9 @@ public class Gui extends JFrame {
 		contentPane.add(mazePanel);
 	}	
 
+	/**
+	* Creates the 11x11 maze with Maze Cells.
+	*/
 	private JPanel createMazePanel(int size) {
 		
 		JPanel mazePanel = new JPanel();
@@ -117,7 +122,10 @@ public class Gui extends JFrame {
 		
 		return mazePanel;
 	}
-	
+
+	/**
+	* Creates the Play Maze button that allows the user to play the maze in 3D.
+	*/
 	private JButton playMazeBtn() {
 		JButton playMaze = new JButton("Play Maze");
 		playMaze.setBounds(0, 0, 300, 100);
@@ -191,7 +199,10 @@ public class Gui extends JFrame {
 		solveMaze.setFont(buttonFont);
 		return solveMaze;
 	}
-	
+
+	/**
+	* Creates the Generate Maze button that generates a random maze.
+	*/
 	private JButton generateMazeBtn() {
 		JButton generateMaze = new JButton("Generate Maze");
 		generateMaze.setBounds(0, 230, 300, 100);
@@ -216,7 +227,10 @@ public class Gui extends JFrame {
 		generateMaze.setFont(buttonFont);
 		return generateMaze;
 	}
-	
+
+	/**
+	* Creates the Reset Maze button that returns a blank maze.
+	*/
 	private JButton resetMazeBtn() {
 		JButton resetMaze = new JButton("Reset Maze");
 		resetMaze.setBounds(0, 345, 300, 100);
@@ -259,7 +273,10 @@ public class Gui extends JFrame {
 	public static MazeCell[][] getMaze(){
 		return maze;
 	}
-	
+
+	/**
+	* Displays an error message if no solution is found when using the Solve Maze button.
+	*/
 	public static void displayErrorMessage() {
 		JFrame errorWindow = new JFrame();
 		errorWindow.setBounds(500, 220, 400, 200);
