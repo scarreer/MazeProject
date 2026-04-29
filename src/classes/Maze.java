@@ -4,7 +4,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import edu.princeton.cs.algs4.DepthFirstPaths;
 import edu.princeton.cs.algs4.Graph;
@@ -20,23 +19,41 @@ public class Maze {
 
 	
 	//uses the binary tree maze algorithm to generate a random maze.
-	private static final int[] TEXS = {1, 4, 5, 6};
-    private static Random r = new Random();
+	public static int[][] generateMaze() {
+		int[][] maze = new int[11][11];
 
-    public static int[][] generateMaze() {
-        int[][] maze = new int[11][11];
-        for (int i=0; i<11; i++) for (int j=0; j<11; j++) maze[i][j] = TEXS[r.nextInt(4)];
-        for (int i=1; i<10; i++) {
-            for (int j=1; j<10; j++) {
-                if (i%2==1 && j%2==1) {
+        for (int i = 0; i < 11; i++) {
+            for (int j = 0; j < 11; j++) {
+                maze[i][j] = 1;
+            }
+        }
+        
+        for (int i = 1; i < 10; i++) {
+            for (int j = 1; j < 10; j++) {
+                if (i % 2 == 1 && j % 2 == 1) {
                     maze[i][j] = 0;
-                    if (i>1 && j>1) {
-                        if (Math.random()<0.5) maze[i-1][j]=0; else maze[i][j-1]=0;
-                    } else if (i>1) maze[i-1][j]=0; else if (j>1) maze[i][j-1]=0;
+
+                    boolean canGoUp = (i > 1);
+                    boolean canGoLeft = (j > 1);
+
+                    if (canGoUp && canGoLeft) {
+                        if (Math.random() < 0.5) {
+                            maze[i - 1][j] = 0;
+                        } else {
+                            maze[i][j - 1] = 0;
+                        }
+                    } else if (canGoUp) {
+                        maze[i - 1][j] = 0;
+                    } else if (canGoLeft) {
+                        maze[i][j - 1] = 0;
+                    }
                 }
             }
         }
-        maze[0][1] = 2; maze[10][9] = 3;
+        
+		maze[0][1] = 2;
+		maze[10][9] = 3;
+		
         return maze;
 	}
 

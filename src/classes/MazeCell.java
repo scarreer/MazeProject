@@ -4,53 +4,66 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 
+/**
+* Each individual cell in the 11x11 maze in the GUI.
+*
+* @author Davis Martin
+*/
 public class MazeCell extends JButton {
-    private int cellType; 
-    private boolean isBorder;
-    
-    public MazeCell(int x, int y, boolean filled, Dimension size, char type) {
-        this.setContentAreaFilled(true);
-        this.setOpaque(true); 
-        this.setBorderPainted(false);
-        this.setPreferredSize(size);
-        
-        if(filled) { this.isBorder = true; this.setCellType(1); }
-        else { this.isBorder = false; this.setCellType(0); }
-        
-        switch(type) {
-            case 's': this.setBackground(Color.GREEN); this.isBorder = true; this.cellType = 2; break;
-            case 'e': this.setBackground(Color.RED); this.isBorder = true; this.cellType = 3; break;
-        }
-        
-        this.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if(!isBorder) {
-                    if (cellType == 0) setCellType(1);
-                    else if (cellType == 1) setCellType(4);
-                    else if (cellType == 4) setCellType(5);
-                    else if (cellType == 5) setCellType(6);
-                    else setCellType(0);
-                }
-            }
-        });
-    }
-
-    public int getCellType() { return cellType; }
-    
-    public void setCellType(int type) {
-        this.cellType = type;
-        switch(type) {
-            case 0: this.setBackground(Color.WHITE); break;
-            case 1: this.setBackground(Color.BLACK); break;
-            case 4: this.setBackground(Color.BLUE); break;
-            case 5: this.setBackground(Color.DARK_GRAY); break;
-            case 6: this.setBackground(Color.ORANGE); break;
-        }
-        this.repaint();
-    }
-
-    public void setFilled(boolean fill) { setCellType(fill ? 1 : 0); }
-    public boolean isFilled() { return cellType != 0; }
+	private static final long serialVersionUID = 8758030830332429424L;
+	
+	private boolean filled;
+	private boolean isBorder;
+	
+	public MazeCell(int x, int y, boolean filled, Dimension size, char type) {
+		
+		this.setContentAreaFilled(true);
+	    this.setOpaque(true); 
+	    this.setBorderPainted(false);
+	    
+	    
+		this.setFilled(filled);
+		if(filled) {
+			this.isBorder = true;
+		}else {
+			this.isBorder = false;
+		}
+		this.setPreferredSize(size);
+		
+		switch(type) {
+		case 's': this.setBackground(Color.GREEN); this.isBorder = true; break;
+		case 'e': this.setBackground(Color.RED); this.isBorder = true; break;
+		case 'w': this.isBorder = true; break;
+		}
+		
+		this.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(!isBorder())
+					setFilled(!isFilled());
+			}
+		});
+	}
+	
+	public boolean isBorder() {
+		return isBorder;
+	}
+	
+	public boolean isFilled() {
+		return filled;
+	}
+	
+	public void setFilled(boolean fill) {
+		filled = fill;
+		if(fill) {
+			this.setBackground(Color.BLACK);
+		}else {
+			this.setBackground(Color.WHITE);
+		}
+		
+		this.repaint();
+	    this.revalidate();
+	}
 }
