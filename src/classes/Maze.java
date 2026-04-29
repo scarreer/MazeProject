@@ -4,6 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import edu.princeton.cs.algs4.DepthFirstPaths;
 import edu.princeton.cs.algs4.Graph;
@@ -11,55 +12,31 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.LinearProbingHashST;
 
 /**
-* The literal maze.
+* Class that handles maze generation and solving.
 *
 * @author Davis Martin && Levi Fowler
 */
 public class Maze {
 
-	public static void main(String[] args) {
-		String s = "010";
-		int i = Integer.parseInt(s);
-		System.out.println(s);
-		System.out.println(i);
-	}
 	
 	//uses the binary tree maze algorithm to generate a random maze.
-	public static int[][] generateMaze() {
-		int[][] maze = new int[11][11];
+	private static final int[] TEXS = {1, 4, 5, 6};
+    private static Random r = new Random();
 
-        for (int i = 0; i < 11; i++) {
-            for (int j = 0; j < 11; j++) {
-                maze[i][j] = 1;
-            }
-        }
-        
-        for (int i = 1; i < 10; i++) {
-            for (int j = 1; j < 10; j++) {
-                if (i % 2 == 1 && j % 2 == 1) {
+    public static int[][] generateMaze() {
+        int[][] maze = new int[11][11];
+        for (int i=0; i<11; i++) for (int j=0; j<11; j++) maze[i][j] = TEXS[r.nextInt(4)];
+        for (int i=1; i<10; i++) {
+            for (int j=1; j<10; j++) {
+                if (i%2==1 && j%2==1) {
                     maze[i][j] = 0;
-
-                    boolean canGoUp = (i > 1);
-                    boolean canGoLeft = (j > 1);
-
-                    if (canGoUp && canGoLeft) {
-                        if (Math.random() < 0.5) {
-                            maze[i - 1][j] = 0;
-                        } else {
-                            maze[i][j - 1] = 0;
-                        }
-                    } else if (canGoUp) {
-                        maze[i - 1][j] = 0;
-                    } else if (canGoLeft) {
-                        maze[i][j - 1] = 0;
-                    }
+                    if (i>1 && j>1) {
+                        if (Math.random()<0.5) maze[i-1][j]=0; else maze[i][j-1]=0;
+                    } else if (i>1) maze[i-1][j]=0; else if (j>1) maze[i][j-1]=0;
                 }
             }
         }
-        
-		maze[0][1] = 2;
-		maze[10][9] = 3;
-		
+        maze[0][1] = 2; maze[10][9] = 3;
         return maze;
 	}
 
@@ -149,7 +126,8 @@ public class Maze {
 	}
 
 	/**
-	* Converts the maze into an integer array that can be interpreted by other methods.
+	* Converts the maze into an integer array that can be interpreted by the 
+	* raycasting's auto solve method
 	*/
 	private static int[][] mazeToArray(MazeCell[][] maze){
 		int[][] array = new int[11][11];
